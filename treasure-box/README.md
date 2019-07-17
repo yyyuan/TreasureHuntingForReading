@@ -1,1 +1,3 @@
-For treasure box side code. 
+# Treasure Box Side 
+
+This repository contains codes for treasure box side app (mostly Arduino).
