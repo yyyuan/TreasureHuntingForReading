@@ -7,6 +7,7 @@ class Student(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    rewards_redeemed = db.Column(db.Integer)
+    points_redeemed = db.Column(db.Integer)
+    current_points = db.Column(db.Integer)
     teacher = db.Column(db.String)
     volunteer = db.Column(db.String)

@@ -19,6 +19,7 @@ class StudentForm(Form):
                    ('Volunteer 3', 'Volunteer 3')
                    ]
     name = StringField('Name')
-    rewards_redeemed = StringField('Number of Redeemed Rewards')
+    current_points = StringField('Current Points')
+    points_redeemed = StringField('Points Redeemed')
     teacher = SelectField('Teacher', choices=teacher_names)
     volunteer = SelectField('Volunteer', choices=volunteer_names)

@@ -5,13 +5,15 @@
 {% from "_formhelpers.html" import render_field %}
 <form method=post>
     <dl>
-        {{ render_field(form.name) }}
-        <p>
-        {{ render_field(form.rewards_redeemed) }}
-        <p>
         {{ render_field(form.teacher) }}
         <p>
         {{ render_field(form.volunteer) }}
+        <p>
+        {{ render_field(form.name) }}
+        <p>
+        {{ render_field(form.current_points) }}
+        <p>
+        {{ render_field(form.points_redeemed) }}
     </dl>
     <p><input type=submit value=Submit>
 </form>
