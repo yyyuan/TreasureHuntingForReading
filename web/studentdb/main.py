@@ -6,14 +6,36 @@ from forms import StudentSearchForm, StudentForm
 from flask import flash, render_template, request, redirect
 from models import Student
 from tables import Students
+from flask import jsonify
 
 init_db()
 
+# import serial for serial communication with Arduino
+import serial
+import time
+import threading
+import sys
+
+## may need to modify based on the actual port info - uncomment when have the actual arduino
+## ser = serial.Serial("/dev/cu.usbserial-DA00VDIZ",9600)
+
+@app.route("/update", methods = ['GET'])
+def update_points():
+    ## uncomment the following when actually have the serial ports
+    ## total_points = ser.readline().decode('utf-8')
+    ## the dummy test
+    total_points = '25\r\n'
+    total_points = total_points.replace('\n', '')
+    total_points = total_points.replace('\r', '')
+    print(total_points, file=sys.stdout)
+    return jsonify(points = [total_points])
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    #search = StudentSearchForm(request.form)
-    #if request.method == 'POST':
-    #    return search_results(search)
+    # search = StudentSearchForm(request.form)
+    # if request.method == 'POST':
+    # return search_results(search)
     all_students = []
     qry = db.session.query(Student)
     students = qry.all()
@@ -115,4 +137,5 @@ def add(id):
         return 'Error loading #{id}'.format(id=id)
 
 if __name__ == '__main__':
+    app.debug = True
     app.run()
