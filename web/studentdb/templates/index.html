@@ -1,18 +1,33 @@
 <doctype html>
 <head>
-    <title>Student Information Database</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./static/style.css">
+    <title>Student Information Database</title>
 </head>
 
-<h2>Students Database</h2>
+<div class="text-center">
+  <h2>Students Database</h2>
+  <a class="btn btn-success mx-3" href="{{ url_for('.new_student') }}" role="button">New Student</a>
+</div>
 
-<p></p>
-<p></p>
+<div class="container-fluid">
+  <p></p>
+  <p></p>
 
-<a href="{{ url_for('.new_student') }}"> New Student</a>
-
-<p></p>
-<p></p>
-
-{{ table }}
+  <div class="row px-md-2">
+    {% for s in table.items %}
+        <div class="card mx-2 my-2" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{ s.name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Teacher: {{ s.teacher }}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Volunteer: {{ s.volunteer }}</h6>
+          <p class="card-text">Current Points: {{ s.current_points }}</p>
+          <p class="card-text">Redeemed Points:  {{ s.points_redeemed }}</p>
+          <a href="/redeem/{{ s.id }}" class="card-link btn btn-outline-primary btn-sm">Redeem</a>
+          <a href="/update/{{ s.id }}" class="card-link btn btn-outline-primary btn-sm">Update</a>
+          <a href="/delete/{{ s.id }}" class="card-link btn btn-outline-danger btn-sm">Delete</a>
+        </div>
+        </div>
+    {% endfor %}
+  </div>
+</div>

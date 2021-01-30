@@ -1,19 +1,26 @@
 <doctype html>
-<title>New Student - Student Database</title>
-<h2>New Album</h2>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="./static/style.css">
+  <title>New Student - Student Database</title>
+</head>
+
+<div class="text-center p-2">
+  <h2>New Student</h2>
+</div>
 
 {% from "_formhelpers.html" import render_field %}
-<form method=post>
+<form class="form" method="post" role="form" >
     <dl>
-        {{ render_field(form.teacher) }}
+        <div class="col-sm-2">{{ render_field(form.teacher) }}</div>
         <p>
-        {{ render_field(form.volunteer) }}
+        <div class="col-sm-2">{{ render_field(form.volunteer) }}</div>
         <p>
-        {{ render_field(form.name) }}
+        <div class="col-sm-2">{{ render_field(form.name) }}</div>
         <p>
-        {{ render_field(form.current_points) }}
+        <div class="col-sm-2">{{ render_field(form.current_points) }}</div>
         <p>
-        {{ render_field(form.points_redeemed) }}
+        <div class="col-sm-2">{{ render_field(form.points_redeemed) }}</div>
     </dl>
-    <p><input type=submit value=Submit>
+    <button type="submit" class="btn btn-primary mx-3">Submit</button>
 </form>

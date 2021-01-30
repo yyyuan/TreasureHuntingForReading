@@ -7,6 +7,7 @@ from flask import flash, render_template, request, redirect
 from models import Student
 from tables import Students
 from flask import jsonify
+import json
 
 init_db()
 
@@ -19,8 +20,8 @@ import sys
 ## may need to modify based on the actual port info - uncomment when have the actual arduino
 ## ser = serial.Serial("/dev/cu.usbserial-DA00VDIZ",9600)
 
-@app.route("/update", methods = ['GET'])
-def update_points():
+@app.route("/update/<int:id>", methods = ['GET', 'POST'])
+def update_points(id):
     ## uncomment the following when actually have the serial ports
     ## total_points = ser.readline().decode('utf-8')
     ## the dummy test
@@ -28,8 +29,18 @@ def update_points():
     total_points = total_points.replace('\n', '')
     total_points = total_points.replace('\r', '')
     print(total_points, file=sys.stdout)
-    return jsonify(points = [total_points])
+    jfile = jsonify(points = [total_points])
+    qry = db.session.query(Student).filter(Student.id==id)
+    student = qry.first()
+    if student:
+        points_dict = json.loads(jfile.get_data().decode("utf-8"))
+        student.current_points += int(points_dict['points'][0])
+        db.session.commit()
+        return redirect('/')
+    else:
+        return 'Error loading #{id}'.format(id=id)
 
+    return redirect('/')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -96,7 +107,6 @@ def save_changes(student, form, new=False):
 
     # Get data from form and assign it to the correct attributes
     # of the SQLAlchemy table object
-
     student.name = form.name.data
     student.current_points = form.current_points.data
     student.points_redeemed = form.points_redeemed.data
@@ -125,6 +135,19 @@ def redeem(id):
     else:
         return 'Error loading #{id}'.format(id=id)
 
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+    qry = db.session.query(Student).filter(Student.id==id)
+    student = qry.first()
+    if student:
+        db.session.delete(student)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return 'Error loading #{id}'.format(id=id)
+
+# replaced by update function
+'''
 @app.route('/add/<int:id>', methods=['GET', 'POST'])
 def add(id):
     qry = db.session.query(Student).filter(Student.id==id)
@@ -135,6 +158,7 @@ def add(id):
         return redirect('/')
     else:
         return 'Error loading #{id}'.format(id=id)
+'''
 
 if __name__ == '__main__':
     app.debug = True
